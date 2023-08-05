@@ -43,6 +43,7 @@ type Publisher {
 
 # Query Object
 
+# todo: check if this is correct
 type Query {
     # Author
     # Find Author by ID including books by the author
