@@ -1,6 +1,7 @@
 package com.company.bookstore.controllers;
 
 import com.company.bookstore.models.Book;
+import com.company.bookstore.repositories.AuthorRepository;
 import com.company.bookstore.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ public class BookController {
     private BookRepository bookRepository;
 
     @Autowired
-    private BookRepository authorRepository;
+    private AuthorRepository authorRepository;
 
     // POST: create
     @PostMapping()
@@ -48,14 +49,14 @@ public class BookController {
     // PUT: update
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCustomer(@RequestBody Book customer) {
+    public void updateBook(@RequestBody Book customer) {
         bookRepository.save(customer);
     }
 
     // DELETE: delete by id
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCustomer(@PathVariable int id) {
+    public void deleteBook(@PathVariable int id) {
         bookRepository.deleteById(id);
     }
 
