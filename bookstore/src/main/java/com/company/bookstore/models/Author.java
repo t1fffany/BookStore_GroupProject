@@ -19,7 +19,6 @@ public class Author {
         this.city = city;
         this.state = state;
         this.postalCode = postalCode;
-        this.books = books;
     }
 
     public Author() {}
