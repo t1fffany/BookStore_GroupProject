@@ -30,7 +30,7 @@ public class AuthorController {
     }
 
     //    Find all authors
-    @GetMapping("/authors")
+    @GetMapping("author/authors")
     @ResponseStatus(HttpStatus.OK)
     public List<Author> getAuthors() {
 
@@ -46,7 +46,7 @@ public class AuthorController {
 
 
     //    Update an existing author record
-    @PutMapping("/author/update/{id}")
+    @PutMapping("/author")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateAuthor(@RequestBody Author author) {
         authorRepository.save(author);
