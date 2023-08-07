@@ -3,6 +3,7 @@ package com.company.bookstore.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,15 +12,16 @@ import java.util.Objects;
 @Table(name = "author")
 public class Author {
 
-    public Author(int id, String firstName, String lastName, String street, String city, String state, String postalCode) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.postalCode = postalCode;
-    }
+//    public Author(int id, String firstName, String lastName, String street, String city, String state, String postalCode) {
+//        this.id = id;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.street = street;
+//        this.city = city;
+//        this.state = state;
+//        this.postalCode = postalCode;
+//        this.books = books;
+//    }
 
     public Author() {}
 
@@ -40,7 +42,7 @@ public class Author {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch= FetchType.EAGER)
     @JoinColumn(name="author_id")
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -119,12 +121,12 @@ public class Author {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
-        return id == author.id && Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName) && Objects.equals(street, author.street) && Objects.equals(city, author.city) && Objects.equals(state, author.state) && Objects.equals(postalCode, author.postalCode) && Objects.equals(phone, author.phone) && Objects.equals(email, author.email) && Objects.equals(books, author.books);
+        return id == author.id && Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName) && Objects.equals(street, author.street) && Objects.equals(city, author.city) && Objects.equals(state, author.state) && Objects.equals(postalCode, author.postalCode) && Objects.equals(phone, author.phone) && Objects.equals(email, author.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, street, city, state, postalCode, phone, email, books);
+        return Objects.hash(id, firstName, lastName, street, city, state, postalCode, phone, email);
     }
 
     @Override

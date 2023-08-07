@@ -3,6 +3,7 @@ package com.company.bookstore.controllers;
 import com.company.bookstore.models.Author;
 import com.company.bookstore.repositories.AuthorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
+import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -20,108 +21,107 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AuthorControllerTest {
+class AuthorControllerTest {
 
-        @MockBean
-        private AuthorRepository authorRepository;
-        @Autowired
-        private MockMvc mockMvc;
+    @MockBean
+    private AuthorRepository authorRepository;
 
+    @Autowired
+    private MockMvc mockMvc;
 
-        // Testing get ALL "/authors"
-        @Test
-        public void testGetAll() throws Exception {
-            // ARRANGE
-            mockMvc.perform(
-                            get("/author")   // Perform the GET request
-                                    .contentType(MediaType.APPLICATION_JSON))   // Tell the server it's in JSON format
-                    .andDo(print()) // Print results to console
-                    .andExpect(status().isOk());
-        }
+    @BeforeEach
+    public void setUp() throws Exception {
+        authorRepository.deleteAll();
+    }
 
-        // Testing get "/author/{id}"
-        @Test
-        public void testGetById() throws Exception {
+    // Create
+    @Test
+    public void testCreateAuthor() throws Exception {
+        // ARRANGE
+        Author author = new Author();
+        author.setFirstName("First");
+        author.setLastName("Last");
+        author.setStreet("1st Street");
+        author.setCity("New York City");
+        author.setState("ny");
+        author.setPostalCode("12345");
+        author.setPhone("4041231234");
+        author.setEmail("ouremail.gmail.com");
 
-            // ACT /author/{id}
-            mockMvc.perform(
-                            get("/author/1")   // Perform the GET request
-                                    .contentType(MediaType.APPLICATION_JSON))   // Tell the server it's in JSON format
-                    .andDo(print()) // Print results to console
-                    .andExpect(status().isOk());
-        }
+        Mockito.when(authorRepository.save(Mockito.any(Author.class)))
+                .thenReturn(author);
 
+        ObjectMapper objectMapper = new ObjectMapper();
 
-
-        // Testing POST
-        @Test
-        public void newAuthorTest() throws Exception {
-            //ARRANGE
-            Author author = new Author();
-            author.setId(1);
-            author.setFirstName("John");
-            author.setLastName("Doe");
-            author.setStreet("10 Green St");
-            author.setCity("San Francisco");
-            author.setState("California");
-            author.setPostalCode("94123");
-            author.setPhone("415-555-0089");
-            author.setEmail("johnDoe@me.com");
+        // ACT
+        mockMvc.perform(
+                        post("/author")  // Perform the POST request
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(author)))  // Request payload as JSON
+                .andDo(print())  // Print results to console
+                .andExpect(status().isCreated());  // 201 code
+    }
 
 
-            Mockito.when(authorRepository.save(Mockito.any(Author.class)))
-                    .thenReturn(author);
+    // Read By ID
+    @Test
+    public void testGetAuthorById() throws Exception {
+        // ACT
+        mockMvc.perform(
+                        get("/author/1")  // Perform the GET request
+                                .contentType(MediaType.APPLICATION_JSON))  // Tell the server it's in JSON format
+                .andDo(print())  // Print results to console
+                .andExpect(status().isOk());
+    }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            // ACT
-            mockMvc.perform(
-                            post("/author")                          // Perform the POST request
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(objectMapper.writeValueAsString(author)))    // Request payload as JSON
-                    .andDo(print())                             // Print results to console
-                    .andExpect(status().isCreated());  // 201 code
+    // Read All
+    @Test
+    public void testGetAllAuthors() throws Exception {
+        // ACT
+        mockMvc.perform(
+                        get("/author/authors")  // Perform the GET request
+                                .contentType(MediaType.APPLICATION_JSON))  // Tell the server it's in JSON format
+                .andDo(print())  // Print results to console
+                .andExpect(status().isOk());
+    }
 
-        }
+    // Update
+    @Test
+    public void updateAuthorTest() throws Exception {
+        //ARRANGE
+        Author author = new Author();
+        author.setFirstName("First");
+        author.setLastName("Last");
+        author.setStreet("1st Street");
+        author.setCity("New York City");
+        author.setState("ny");
+        author.setPostalCode("12345");
+        author.setPhone("4041231234");
+        author.setEmail("ouremail.gmail.com");
 
-        // Testing Put
-        @Test
-        public void updateAuthorTest() throws Exception {
-            //ARRANGE
-            Author author = new Author();
-            author.setId(2);
-            author.setFirstName("Boo");
-            author.setLastName("Doe");
-            author.setStreet("10 Green St");
-            author.setCity("San Francisco");
-            author.setState("California");
-            author.setPostalCode("94123");
-            author.setPhone("415-555-0089");
-            author.setEmail("johnDoe@me.com");
+        Mockito.when(authorRepository.save(Mockito.any(Author.class)))
+                .thenReturn(author);
 
-            Mockito.when(authorRepository.save(Mockito.any(Author.class)))
-                    .thenReturn(author);
+        ObjectMapper objectMapper = new ObjectMapper();
 
-            ObjectMapper objectMapper = new ObjectMapper();
+        // ACT
+        mockMvc.perform(
+                        put("/author", author.getId())  // Perform the PUT request
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(author)))
+                .andDo(print())  // Print results to console
+                .andExpect(status().isNoContent());  // ASSERT (status code is 204)
+    }
 
-            // ACT
-            mockMvc.perform(
-                            put("/author/update/{id}", author.getId())               // Perform the PUT request
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(objectMapper.writeValueAsString(author)))
-                    .andDo(print())                          // Print results to console
-                    .andExpect(status().isNoContent());             // ASSERT (status code is 204)
+    // Delete by ID
+    @Test
+    public void deleteAuthorTest() throws Exception {
+        // ACT
+        mockMvc.perform(
+                        delete("/author/1"))  // Perform the delete request
+                .andDo(print())  // Print results to console
+                .andExpect(status().isNoContent());  // ASSERT (status code is 204)
+    }
 
-        }
 
-        // Testing delete /author
-        @Test
-        public void deleteAuthorTest() throws Exception {
-            // ACT
-            mockMvc.perform(
-                            delete("/author/1")               // Perform the delete request
-                                    .contentType(MediaType.APPLICATION_JSON))
-                    .andDo(print())                          // Print results to console
-                    .andExpect(status().isNoContent());             // ASSERT (status code is 204)
-
-        }
 }
