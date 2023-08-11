@@ -2,40 +2,44 @@
 # Author
 
 type Author {
-    author_id: ID!
-    first_name: String!
-    last_name: String!
+    id: ID!
+    firstName: String!
+    lastName: String!
     street: String!
     city: String!
     state: String!
-    postal_code: String!
+    postalCode: String!
     phone: String!
     email: String!
+    books: [Book]
 }
 
 # Book
 
 type Book {
-    book_id: ID!
+    id: ID!
     isbn: String!
-    publish_date: String! # todo: figure out correct type
-    author_id: Int!
+    publishDate: String! # todo: figure out correct type
+    authorId: Int!
     title: String!
-    publisher_id: Int!
+    publisherId: Int!
     price: Float!
+    author: Author!
+    publisher: Publisher!
 }
 
 # Publisher
 
 type Publisher {
-    publisher_id: ID!
+    id: ID!
     name: String!
     street: String!
     city: String!
     state: String!
-    postal_code: String!
+    postalCode: String!
     phone: String!
     email: String!
+    books: [Book]
 }
 
 

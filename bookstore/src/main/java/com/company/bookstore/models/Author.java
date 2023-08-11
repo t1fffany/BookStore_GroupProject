@@ -12,16 +12,18 @@ import java.util.Objects;
 @Table(name = "author")
 public class Author {
 
-//    public Author(int id, String firstName, String lastName, String street, String city, String state, String postalCode) {
-//        this.id = id;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.street = street;
-//        this.city = city;
-//        this.state = state;
-//        this.postalCode = postalCode;
-//        this.books = books;
-//    }
+    public Author(int id, String firstName, String lastName, String street, String city, String state, String postalCode, String phone, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+        this.email = email;
+        this.phone = phone;
+       // this.books = books;
+    }
 
     public Author() {}
 
