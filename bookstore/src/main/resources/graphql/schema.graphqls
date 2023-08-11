@@ -19,7 +19,7 @@ type Author {
 type Book {
     id: ID!
     isbn: String!
-    publishDate: String! # todo: figure out correct type
+    publishDate: String!
     authorId: Int!
     title: String!
     publisherId: Int!
@@ -47,7 +47,6 @@ type Publisher {
 
 # Query Object
 
-# todo: check if this is correct
 type Query {
     # Author
     # Find Author by ID including books by the author

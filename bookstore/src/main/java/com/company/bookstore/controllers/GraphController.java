@@ -29,8 +29,6 @@ public class GraphController {
 
 
     // Author
-
-    // todo: check if books by the author is in return object
     @QueryMapping
     public Author findAuthorById(@Argument int id) {
         Optional<Author> returnVal = this.authorRepository.findById(id);
@@ -40,8 +38,6 @@ public class GraphController {
 
 
     // Book
-
-    // todo: check if author and publisher of the book is in return object
     @QueryMapping
     public Book findBookById(@Argument int id) {
         Optional<Book> returnVal = this.bookRepository.findById(id);
@@ -51,8 +47,6 @@ public class GraphController {
 
 
     // Publisher
-
-    // todo: check if books for the publisher and authors for the books is in return object
     @QueryMapping
     public Publisher findPublisherById(@Argument int id) {
         Optional<Publisher> returnVal = this.publisherRepository.findById(id);
