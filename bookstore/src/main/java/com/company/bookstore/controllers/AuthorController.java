@@ -30,7 +30,7 @@ public class AuthorController {
     }
 
     //    Find all authors
-    @GetMapping("/authors")
+    @GetMapping("/author/authors")
     @ResponseStatus(HttpStatus.OK)
     public List<Author> getAuthors() {
 
